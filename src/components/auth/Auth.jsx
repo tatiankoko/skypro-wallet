@@ -4,14 +4,11 @@ import {useState} from "react";
 import {
     AuthContainer,
     AuthWrapper, ErrorNotification,
-    Modal,
-    ModalBlock,
-    ModalFormGroup,
-    ModalFormLogin,
-    ModalTtl
+    ModalFormGroup
 } from "./Auth.styled.js";
 import {FormInput} from "../Input.styled.js";
 import {FormButton} from "../Button.styled.js";
+import {Modal, ModalBlock, ModalForm, ModalTtl} from "../Modal.styled.js";
 
 const Auth = () => {
     const [isSignUp, setIsSignUp] = useState(false);
@@ -93,12 +90,12 @@ const Auth = () => {
                         <ModalTtl>
                             {
                                 isSignUp
-                                    ? <h2>Регистрация</h2>
-                                    : <h2>Вход</h2>
+                                    ? 'Регистрация'
+                                    : 'Вход'
                             }
                         </ModalTtl>
 
-                        <ModalFormLogin onSubmit={handleSubmit}>
+                        <ModalForm onSubmit={handleSubmit}>
                             {
                                 isSignUp
                                     ? <FormInput $error={errors.name}
@@ -137,7 +134,7 @@ const Auth = () => {
                             <FormButton disabled={Boolean(error)} type="submit">
                                 { isSignUp ? 'Зарегистрироваться' : 'Войти' }
                             </FormButton>
-                        </ModalFormLogin>
+                        </ModalForm>
 
                         <ModalFormGroup>
                             { isSignUp

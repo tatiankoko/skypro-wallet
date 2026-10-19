@@ -6,7 +6,7 @@ export function AuthProvider({ children }) {
     const userInfo = JSON.parse(
         localStorage.getItem("userInfo"));
     const [user, setUser] = useState(userInfo); // null означает, что пользователь не авторизован
-    const [isAuth, setIsAuth] = useState(false);/*Boolean(userInfo));*/
+    const [isAuth, setIsAuth] = useState(true);/*Boolean(userInfo));*/
 
     const login = async ({login, password}) => {
         setIsAuth(true);
