@@ -12,11 +12,12 @@ export const HeaderContainer = styled.div`
     max-width: 1260px;
     width: 100%;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0;
+    /*padding: 0 20px;*/
 
     @media screen and (max-width: 495px) {
         width: 100%;
-        padding: 0 16px;
+        /*padding: 0 16px;*/
     }
 `
 
@@ -30,6 +31,12 @@ export const HeaderBlock = styled.div`
     top: 0;
     left: 0;
     padding: 0 10px;
+
+    @media screen and (max-width: 495px) {
+        height: 54px;
+        padding: 0 20px;
+        gap: 20px;
+    }
 `
 
 export const HeaderNav = styled.nav`
@@ -38,6 +45,11 @@ export const HeaderNav = styled.nav`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media screen and (max-width: 495px) {
+        justify-content: right;
+        margin-left: auto;
+    }
 `
 
 export const HeaderLogo = styled.div`
@@ -45,21 +57,43 @@ export const HeaderLogo = styled.div`
     
     img {
         width: 150px;
-    }
+        
+        @media screen and (max-width: 495px) {
+            width: 109px;
+        }
+    }    
 `
 
 export const HeaderLink = styled(Link)`
-    /*height: 30px;*/
     color: ${ ({$active}) => $active ? colors.btnBg : colors.title };
     text-decoration: ${ ({$active}) => $active ? 'underline' : 'none' };;
     border: none;
     font-size: 14px;
     line-height: 24px;
     font-weight: ${ ({$active}) => $active ? 600 : 400 };
-    margin-right: 20px;
-
+    
     @media screen and (max-width: 495px) {
-        z-index: 3;
+        display: ${ ({$active}) => $active ? 'flex' : 'none' } !important;
+        font-size: 12px;
+        line-height: 18px;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: center;
+        
+        &::after {
+            content: "";
+            display: block;
+            width: 6px;
+            height: 6px;
+            border-radius: 1px;
+            border-left: 2px solid ${ colors.title };
+            border-bottom: 2px solid ${ colors.title };
+            transform: rotate(-45deg);
+            margin: -6px 0 0 5px;
+            padding: 0;
+        } 
+        
+        /*z-index: 3;
         position: fixed;
         left: 16px;
         bottom: 30px;
@@ -67,7 +101,7 @@ export const HeaderLink = styled(Link)`
         width: calc(100vw - 32px);
         height: 40px;
         border-radius: 4px;
-        margin-right: 0;
+        margin-right: 0;*/
     }
 `
 
@@ -80,5 +114,10 @@ export const HeaderLogout = styled.a`
     line-height: 24px;
     font-weight: 600;
     color: ${ colors.title };
+
+    @media screen and (max-width: 495px) {
+        font-size: 12px;
+        line-height: 18px;
+    }
 `
 

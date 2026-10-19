@@ -9,15 +9,18 @@ import {
 import {Link} from "react-router-dom";
 import {useAuth} from "../../context/AuthContext.jsx";
 import {useState} from "react";
+import PopNavigation from "../popNavigation/PopNavigation.jsx";
 
 const Header = () => {
     const {isAuth, setIsAuth} = useAuth();
     const [activeLink, setActiveLink] = useState('my');
+    const [showNav, setShowNav] = useState(false)
+
 
     const handleClickLink = (e) => {
         e.preventDefault();
-        console.log(e.target);
         setActiveLink(e.target.id);
+        setShowNav(!showNav);
     };
 
     return (
@@ -40,14 +43,32 @@ const Header = () => {
                                 </HeaderLink>
 
                                 <HeaderLink to={"/costs/analysis"}
+                                            id={"new"}
+                                            onClick={handleClickLink}
+                                            $active={activeLink === 'new'}
+                                            style={{display: 'none'}}>
+                                    Новый расход
+                                </HeaderLink>
+
+                                <HeaderLink to={"/costs/analysis"}
                                             id={"analysis"}
                                             onClick={handleClickLink}
                                             $active={activeLink === 'analysis'}>
                                     Анализ расходов
                                 </HeaderLink>
+
+                                {
+                                    showNav
+                                        ? <PopNavigation activeId={activeLink}
+                                                         setActiveId={setActiveLink}>
+                                        </PopNavigation>
+                                        : null
+                                }
+
                             </HeaderNav>
                             : null
                     }
+
                     {
                         isAuth
                             ? <HeaderLogout onClick={() => setIsAuth(false)}>

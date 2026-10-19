@@ -3,6 +3,7 @@ export const colors = {
     background: '#FFFFFF',
     title: '#000000',
     shadow: '#999999',
+    boxShadow: '#00000021',
 
     btnBg: '#7334EA',
     btnText: '#FFFFFF',
