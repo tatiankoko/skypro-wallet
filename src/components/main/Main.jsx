@@ -1,5 +1,7 @@
+import {MainStyled} from "./Main.styled.js";
+
 const Main = () => {
-    return "";
+    return <MainStyled />;
 }
 
 export default Main;
