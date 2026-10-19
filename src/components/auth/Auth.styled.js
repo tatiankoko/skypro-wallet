@@ -25,10 +25,6 @@ export const Modal = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    /*@media screen and (max-width: 375px) {
-        background-color: ${ colors.background };
-    }*/
 `
 
 export const ModalBlock = styled.div`
@@ -72,10 +68,6 @@ export const ModalFormLogin = styled.form`
     align-items: center;
     justify-content: center;
     gap: 12px;
-    
-    /*input:not(:first-child) {
-        margin-top: 7px;
-    }*/
 `
 
 export const ModalFormGroup = styled.div`
@@ -100,5 +92,4 @@ export const ErrorNotification = styled.div`
     letter-spacing: 0;
     text-align: center;
     color: ${ colors.alarmText };
-    padding-top: 7px;
 `

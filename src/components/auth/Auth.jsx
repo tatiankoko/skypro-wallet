@@ -101,30 +101,32 @@ const Auth = () => {
                         <ModalFormLogin onSubmit={handleSubmit}>
                             {
                                 isSignUp
-                                    ? <FormInput error={errors.name}
+                                    ? <FormInput $error={errors.name}
                                                  type="text"
                                                  name="name"
                                                  id="formname"
                                                  placeholder="Имя"
                                                  value={formData.name}
-                                                 onChange={handleChange}/>
+                                                 onChange={handleChange}
+                                                 />
                                     : null
                             }
-                            <FormInput error={errors.login}
+                            <FormInput $error={errors.login}
                                        type="text"
                                        name="login"
                                        id="formlogin"
                                        placeholder="Эл. почта"
                                        value={formData.login}
-                                       onChange={handleChange}/>
+                                       onChange={handleChange} />
 
-                            <FormInput error={errors.password}
+                            <FormInput $error={errors.password}
                                        type="password"
                                        name="password"
                                        id="formpassword"
                                        placeholder="Пароль"
                                        value={formData.password}
-                                       onChange={handleChange}/>
+                                       onChange={handleChange}
+                                        />
 
                             {
                                 error

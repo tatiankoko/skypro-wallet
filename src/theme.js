@@ -8,7 +8,7 @@ export const colors = {
     btnBg: '#7334EA',
     btnText: '#FFFFFF',
 
-    alarmBg: '#999999',
+    alarmBg: '#FFEBEB',
     alarmBorder: '#F25050',
     alarmText: '#F84D4D',
 

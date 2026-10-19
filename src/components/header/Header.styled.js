@@ -45,6 +45,7 @@ export const HeaderNav = styled.nav`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 48px;
 
     @media screen and (max-width: 495px) {
         justify-content: right;
