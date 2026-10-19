@@ -134,7 +134,7 @@ const Auth = () => {
                                     : null
                             }
 
-                            <FormButton>
+                            <FormButton disabled={Boolean(error)} type="submit">
                                 { isSignUp ? 'Зарегистрироваться' : 'Войти' }
                             </FormButton>
                         </ModalFormLogin>
