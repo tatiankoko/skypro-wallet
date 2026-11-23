@@ -3,14 +3,13 @@ import styled from "styled-components";
 
 export const TableWrapper = styled.div`
     width: 100%;
-    height: calc(100vh - 64px);
     background-color: ${ colors.fond };
 `
 
 export const TableContainer = styled.div`
     display: block;
     width: 100%;
-    min-height: calc(100vh - 64px);
+    height: 100%;
     margin: 0 auto;
 `
 
@@ -25,6 +24,7 @@ export const TableBlock = styled.div`
     border: 0;
     box-shadow: 0 20px 67px -12px ${ colors.boxShadow };
     width: 100%;
+    height: 100%;
 `
 
 export const TableTtl = styled.h2`
@@ -38,7 +38,6 @@ export const TableTtl = styled.h2`
 
 export const StyledTable = styled.table`
     width: 100%;
-    height: 100%;
     border-collapse: collapse;
     background-color: ${ colors.background };
     font-family: "Montserrat", Arial, Helvetica, sans-serif;

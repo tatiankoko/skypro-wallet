@@ -4,8 +4,16 @@ import {colors} from "../../theme.js";
 export const MyCostsWrapper = styled.div`
     width: 100%;
     height: calc(100vh - 64px);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     background-color: ${ colors.fond };
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 `
 
 export const MyCostsContainer = styled.div`
@@ -13,11 +21,11 @@ export const MyCostsContainer = styled.div`
     flex-direction: column;
     gap: 32px;
     width: 100%;
+    height: 100%;
     max-width: 1260px;
     /*min-height: calc(100vh - 64px);*/
-    margin: 0 auto;
-
     padding: 36px 10px;
+    margin: 0 auto 36px;
 
     @media screen and (max-width: 495px) {
         width: 100%;
@@ -37,7 +45,7 @@ export const CostsTitle = styled.h2`
 export const CostsBlock = styled.div`
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: stretch;
     justify-content: flex-start;
     gap: 34px;
     width: 100%;
