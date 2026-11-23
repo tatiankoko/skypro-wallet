@@ -12,3 +12,4 @@
 - [react-router](https://github.com/remix-run/react-router) - библиотека для роутинга.
 - [styled-components](https://github.com/styled-components/styled-components) - стилизованные компоненты разметки.
 - [axios](https://github.com/sheaivey/react-axios) - HTTP клиент для API.
+- [react-data-table-component](https://github.com/jbetancur/react-data-table-component) - легковесный компонент таблицы

@@ -37,6 +37,8 @@ export const CostsTitle = styled.h2`
 export const CostsBlock = styled.div`
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
     gap: 34px;
     width: 100%;
 `
