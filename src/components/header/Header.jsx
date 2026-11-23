@@ -18,7 +18,6 @@ const Header = () => {
 
 
     const handleClickLink = (e) => {
-        e.preventDefault();
         setActiveLink(e.target.id);
         setShowNav(!showNav);
     };
@@ -42,13 +41,13 @@ const Header = () => {
                                     Мои расходы
                                 </HeaderLink>
 
-                                <HeaderLink to={"/costs/analysis"}
+                                {/*<HeaderLink to={"/costs/my"}
                                             id={"new"}
                                             onClick={handleClickLink}
                                             $active={activeLink === 'new'}
                                             style={{display: 'none'}}>
                                     Новый расход
-                                </HeaderLink>
+                                </HeaderLink>*/}
 
                                 <HeaderLink to={"/costs/analysis"}
                                             id={"analysis"}

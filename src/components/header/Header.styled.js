@@ -40,7 +40,6 @@ export const HeaderBlock = styled.div`
 `
 
 export const HeaderNav = styled.nav`
-    max-width: 274px;
     padding: 0;
     display: flex;
     align-items: center;
@@ -66,6 +65,8 @@ export const HeaderLogo = styled.div`
 `
 
 export const HeaderLink = styled(Link)`
+    white-space: nowrap;
+    flex-shrink: 0;
     color: ${ ({$active}) => $active ? colors.btnBg : colors.title };
     text-decoration: ${ ({$active}) => $active ? 'underline' : 'none' };;
     border: none;
