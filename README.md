@@ -1,15 +1,64 @@
-# SkyproWallet
+# Skypro Wallet
 
-Проект учета расходов
+Учебный проект учёта личных расходов: страница «Мои расходы» с таблицей трат и формой добавления, страница «Анализ расходов» с календарём выбора периода и диаграммой по категориям.
 
-Плагины:
+> API пока не подключён: список расходов, данные диаграммы и авторизация работают на временных заглушках.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Возможности
 
-## Установленные библиотеки
+- **Авторизация** — вход и регистрация с валидацией полей (заглушка до подключения API).
+- **Мои расходы** (`/costs/my`) — таблица расходов (описание, категория, дата, сумма) с удалением строки и форма «Новый расход»: описание, категория (toggle-кнопки с иконками), дата (по умолчанию сегодня), сумма. Валидация по образцу Auth: красные `*` у незаполненных полей, error-состояния инпутов, блокировка кнопки после неудачной отправки.
+- **Анализ расходов** (`/costs/analysis`) — календарь «Период» с выбором диапазона дат и вертикальной прокруткой последних 24 месяцев; диаграмма расходов по 6 категориям (еда, транспорт, жильё, развлечения, образование, другое) с суммами и общей суммой за период.
+- Защищённые маршруты: без авторизации редирект на `/auth`, с авторизацией `/` ведёт на `/costs/my`.
 
-- [react-router](https://github.com/remix-run/react-router) - библиотека для роутинга.
-- [styled-components](https://github.com/styled-components/styled-components) - стилизованные компоненты разметки.
-- [axios](https://github.com/sheaivey/react-axios) - HTTP клиент для API.
-- [react-data-table-component](https://github.com/jbetancur/react-data-table-component) - легковесный компонент таблицы
+## Стек
+
+- [React 19](https://react.dev/) + [Vite 8](https://vite.dev/) (`@vitejs/plugin-react`)
+- [react-router-dom](https://github.com/remix-run/react-router) — роутинг
+- [styled-components](https://github.com/styled-components/styled-components) — стилизация компонентов
+- [react-day-picker](https://daypicker.dev/) — календарь с выбором периода
+- [axios](https://github.com/axios/axios) — HTTP-клиент для API (подключение предстоит)
+- [react-data-table-component](https://github.com/jbetancur/react-data-table-component) — установлен, пока не используется (таблица собрана вручную)
+- ESLint (включая `eslint-plugin-react-hooks`)
+
+## Запуск
+
+```bash
+npm install
+npm run dev
+```
+
+Приложение откроется на `http://localhost:5173`.
+
+### Скрипты
+
+| Команда           | Описание                          |
+| ----------------- | --------------------------------- |
+| `npm run dev`     | dev-сервер Vite с HMR             |
+| `npm run build`   | production-сборка в `dist/`       |
+| `npm run preview` | локальный просмотр собранной версии |
+| `npm run lint`    | проверка ESLint                   |
+
+## Структура
+
+```
+src/
+├── components/
+│   ├── appRoutes/      # маршруты и PrivateRoute
+│   ├── auth/           # вход / регистрация
+│   ├── calendar/       # календарь периода (react-day-picker)
+│   ├── costAnalysis/   # страница анализа расходов
+│   ├── diagram/        # диаграмма по категориям
+│   ├── header/         # шапка с навигацией
+│   ├── myCosts/        # страница «Мои расходы»
+│   ├── newCost/        # форма добавления расхода
+│   ├── popNavigation/  # мобильная навигация
+│   ├── table/          # таблица расходов
+│   ├── Button.styled.js / Input.styled.js / Modal.styled.js  # общие styled-компоненты
+│   └── GlobalStyle.styled.js
+├── context/            # AuthContext (состояние авторизации)
+├── pages/              # страницы-обёртки маршрутов
+└── theme.js            # палитра цветов
+```
+
+Стили компонентов лежат рядом в файлах `*.styled.js`; новые компоненты наследуют базовые стили через `styled(Base)`, не изменяя исходные.
