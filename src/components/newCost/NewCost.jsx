@@ -14,17 +14,19 @@ import {
     NewCostWrapper,
     SumInput
 } from "./NewCost.styled.js";
+import {useTransactions} from "../../context/TransactionsContext.jsx";
 
 const CATEGORIES = [
     {value: 'food', label: 'Еда', icon: 'icon-bag'},
     {value: 'transport', label: 'Транспорт', icon: 'icon-car'},
     {value: 'housing', label: 'Жильё', icon: 'icon-house'},
-    {value: 'entertainment', label: 'Развлечения', icon: 'icon-gameboy'},
+    {value: 'joy', label: 'Развлечения', icon: 'icon-gameboy'},
     {value: 'education', label: 'Образование', icon: 'icon-teacher'},
     {value: 'other', label: 'Другое', icon: 'icon-message-text'},
 ];
 
-const NewCost = () => {
+const NewCost = ({loading}) => {
+    const {addTransaction} = useTransactions();
     const [category, setCategory] = useState('');
     const [errors, setErrors] = useState({
         description: false,
@@ -63,7 +65,7 @@ const NewCost = () => {
     };
 
     // Заглушка до подключения API: пока только валидация
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const newErrors = {
@@ -74,6 +76,21 @@ const NewCost = () => {
         };
         setErrors(newErrors);
         setError(Object.values(newErrors).some(Boolean));
+
+        if (!error) {
+            const newTransaction = {
+                description: formData.description,
+                sum: formData.sum,
+                category: category,
+                date: formData.date
+            }
+
+            try {
+                await addTransaction(newTransaction);
+            } catch (err) {
+                setError(err.message);
+            }
+        }
     };
 
     return (
@@ -147,7 +164,7 @@ const NewCost = () => {
                             />
                         </FieldGroup>
 
-                        <FormButton disabled={error} type="submit">Добавить новый расход</FormButton>
+                        <FormButton disabled={error || loading} type="submit">Добавить новый расход</FormButton>
                     </NewCostForm>
                 </NewCostBlock>
             </TableContainer>

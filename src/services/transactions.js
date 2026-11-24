@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const API_URL = 'https://wedev-api.sky.pro/api/transactions'
 
-export async function fetchTransactions({ token }) {
+/*export async function fetchTransactions({ token }) {
     try {
         const data = await axios.get(API_URL,
             {
@@ -15,9 +15,9 @@ export async function fetchTransactions({ token }) {
     } catch (error) {
         throw new Error(error.message)
     }
-}
+}*/
 
-export const filterTransactions = async ({ token, filters = {} }) => {
+export const fetchTransactions = async ({ token, filters = {} }) => {
     try {
         const params = new URLSearchParams();
 

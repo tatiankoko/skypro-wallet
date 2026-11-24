@@ -18,7 +18,7 @@ export const colors = {
     food: '#D9B6FF',
     transport: '#FFB53D',
     housing: '#6EE4FE',
-    entertainment: '#B0AEFF',
+    joy: '#B0AEFF',
     education: '#BCEC30',
     other: '#FFB9B8',
 }

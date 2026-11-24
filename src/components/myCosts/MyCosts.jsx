@@ -5,12 +5,17 @@ import {useAuth} from "../../context/AuthContext.jsx";
 import {useCallback, useEffect, useState} from "react";
 import {useTransactions} from "../../context/TransactionsContext.jsx";
 import {fetchTransactions} from "../../services/transactions.js";
+import {ErrorMessage} from "../Notification.styled.js";
 
 const MyCosts = () => {
     const [loading, setLoading] = useState(true)
     const {setTransactions} = useTransactions();
     const {user} = useAuth();
     const [error, setError] = useState('');
+    const [filters, setFilters] = useState({
+        sortBy: '?sortBy=date',
+        filterBy: [],
+    });
 
     const getTransactions = useCallback(async () => {
         try {
@@ -18,6 +23,7 @@ const MyCosts = () => {
 
             const data = await fetchTransactions({
                 token: user.token,
+                filters: filters,
             });
 
             if (data) {
@@ -38,14 +44,14 @@ const MyCosts = () => {
         <MyCostsWrapper>
             <MyCostsContainer>
                 <CostsTitle>Мои расходы</CostsTitle>
+                {
+                    error
+                        ? <ErrorMessage>{error}</ErrorMessage>
+                        : null
+                }
                 <CostsBlock>
-                    <Table>
-
-                    </Table>
-
-                    <NewCost>
-                        
-                    </NewCost>
+                    <Table loading={loading} />
+                    <NewCost loading={loading} />
                 </CostsBlock>
             </MyCostsContainer>
         </MyCostsWrapper>

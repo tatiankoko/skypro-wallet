@@ -20,7 +20,7 @@ const CHART_DATA = [
     {value: 'food', label: 'Еда', sum: 12500},
     {value: 'transport', label: 'Транспорт', sum: 3400},
     {value: 'housing', label: 'Жильё', sum: 8000},
-    {value: 'entertainment', label: 'Развлечения', sum: 2500},
+    {value: 'joy', label: 'Развлечения', sum: 2500},
     {value: 'education', label: 'Образование', sum: 4000},
     {value: 'other', label: 'Другое', sum: 1500},
 ];
