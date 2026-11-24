@@ -3,7 +3,7 @@ import {useAuth} from "../../context/AuthContext.jsx";
 import {useState} from "react";
 import {
     AuthContainer,
-    AuthWrapper, ErrorNotification,
+    AuthErrorPlaceholder, AuthInputWrapper, AuthRequiredMark, AuthWrapper, ErrorNotification,
     ModalFormGroup
 } from "./Auth.styled.js";
 import {FormInput} from "../Input.styled.js";
@@ -27,13 +27,13 @@ const Auth = () => {
 
     // состояние ошибок
     const [errors, setErrors] = useState({
-        name: "",
-        login: "",
-        password: "",
+        name: false,
+        login: false,
+        password: false,
     });
 
     const validateForm = () => {
-        const newErrors = { name: "", login: "", password: "" };
+        const newErrors = { name: false, login: false, password: false };
         let isValid = true;
 
         if (isSignUp && !formData.name.trim()) {
@@ -64,7 +64,7 @@ const Auth = () => {
             ...formData,
             [name]: value,
         });
-        setErrors({ ...errors, [name]: false });
+        setErrors((previousErrors) => ({ ...previousErrors, [name]: false }));
         setError("");
     };
 
@@ -89,6 +89,11 @@ const Auth = () => {
                 isSignUp ? setIsSignUp(false) : navigate("/");
             }
         } catch (err) {
+            setErrors({
+                name: isSignUp,
+                login: true,
+                password: true,
+            });
             setError(err.message);
         }
     };
@@ -109,32 +114,56 @@ const Auth = () => {
                         <ModalForm onSubmit={handleSubmit}>
                             {
                                 isSignUp
-                                    ? <FormInput $error={errors.name}
-                                                 type="text"
-                                                 name="name"
-                                                 id="formname"
-                                                 placeholder="Имя"
-                                                 value={formData.name}
-                                                 onChange={handleChange}
-                                                 />
+                                    ? <AuthInputWrapper>
+                                        <FormInput $error={errors.name}
+                                                   type="text"
+                                                   name="name"
+                                                   id="formname"
+                                                   aria-label="Имя"
+                                                   placeholder={errors.name ? "" : "Имя"}
+                                                   value={formData.name}
+                                                   onChange={handleChange}
+                                        />
+                                        {errors.name && !formData.name && (
+                                            <AuthErrorPlaceholder>
+                                                Имя<AuthRequiredMark> *</AuthRequiredMark>
+                                            </AuthErrorPlaceholder>
+                                        )}
+                                    </AuthInputWrapper>
                                     : null
                             }
-                            <FormInput $error={errors.login}
-                                       type="text"
-                                       name="login"
-                                       id="formlogin"
-                                       placeholder="Эл. почта"
-                                       value={formData.login}
-                                       onChange={handleChange} />
+                            <AuthInputWrapper>
+                                <FormInput $error={errors.login}
+                                           type="text"
+                                           name="login"
+                                           id="formlogin"
+                                           aria-label="Эл. почта"
+                                           placeholder={errors.login ? "" : "Эл. почта"}
+                                           value={formData.login}
+                                           onChange={handleChange} />
+                                {errors.login && !formData.login && (
+                                    <AuthErrorPlaceholder>
+                                        Эл. почта<AuthRequiredMark> *</AuthRequiredMark>
+                                    </AuthErrorPlaceholder>
+                                )}
+                            </AuthInputWrapper>
 
-                            <FormInput $error={errors.password}
-                                       type="password"
-                                       name="password"
-                                       id="formpassword"
-                                       placeholder="Пароль"
-                                       value={formData.password}
-                                       onChange={handleChange}
-                                        />
+                            <AuthInputWrapper>
+                                <FormInput $error={errors.password}
+                                           type="password"
+                                           name="password"
+                                           id="formpassword"
+                                           aria-label="Пароль"
+                                           placeholder={errors.password ? "" : "Пароль"}
+                                           value={formData.password}
+                                           onChange={handleChange}
+                                />
+                                {errors.password && !formData.password && (
+                                    <AuthErrorPlaceholder>
+                                        Пароль<AuthRequiredMark> *</AuthRequiredMark>
+                                    </AuthErrorPlaceholder>
+                                )}
+                            </AuthInputWrapper>
 
                             {
                                 error

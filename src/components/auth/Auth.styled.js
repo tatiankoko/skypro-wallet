@@ -14,6 +14,26 @@ export const AuthContainer = styled.div`
     margin: 0 auto;
 `
 
+export const AuthInputWrapper = styled.div`
+    position: relative;
+    width: 100%;
+`
+
+export const AuthErrorPlaceholder = styled.span`
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    color: ${ colors.title };
+    font-size: 12px;
+    line-height: 15px;
+    pointer-events: none;
+`
+
+export const AuthRequiredMark = styled.span`
+    color: red;
+`
+
 export const ModalFormGroup = styled.div`
     text-align: center;
 
