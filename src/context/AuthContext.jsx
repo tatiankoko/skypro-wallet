@@ -1,4 +1,5 @@
 import {createContext, useContext, useState} from 'react';
+import {signIn, signUp} from "../services/auth.js";
 
 const AuthContext = createContext(undefined);
 
@@ -6,21 +7,43 @@ export function AuthProvider({ children }) {
     const userInfo = JSON.parse(
         localStorage.getItem("userInfo"));
     const [user, setUser] = useState(userInfo); // null означает, что пользователь не авторизован
-    const [isAuth, setIsAuth] = useState(true);/*Boolean(userInfo));*/
+    const [isAuth, setIsAuth] = useState(Boolean(userInfo));
 
     const login = async ({login, password}) => {
-        setIsAuth(true);
-        return true;
+        const userData = await signIn({
+            login: login,
+            password: password
+        });
+
+        if (userData) {
+            localStorage.setItem(
+                "userInfo",
+                JSON.stringify(userData));
+
+            setIsAuth(true);
+            setUser(userData);
+            return true;
+        } else {
+            return false;
+        }
     };
 
     const logout = () => {
+        localStorage.removeItem('userInfo');
+
         setIsAuth(false);
         setUser(null);
         return true;
     };
 
     const signup = async ({name, login, password}) => {
-        return true;
+        const userData = await signUp({
+            name: name,
+            login: login,
+            password: password
+        });
+
+        return !!userData;
     };
 
     return (
@@ -34,7 +57,6 @@ export function AuthProvider({ children }) {
     );
 }
 
-// Кастомный хук
 export function useAuth() {
     const context = useContext(AuthContext);
     if (!context) {
