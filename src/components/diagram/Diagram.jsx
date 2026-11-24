@@ -22,7 +22,7 @@ const CHART_DATA = [
     {value: 'housing', label: 'Жильё', sum: 8000},
     {value: 'joy', label: 'Развлечения', sum: 2500},
     {value: 'education', label: 'Образование', sum: 4000},
-    {value: 'other', label: 'Другое', sum: 1500},
+    {value: 'others', label: 'Другое', sum: 1500},
 ];
 
 const Diagram = () => {

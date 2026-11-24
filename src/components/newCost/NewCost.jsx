@@ -15,6 +15,7 @@ import {
     SumInput
 } from "./NewCost.styled.js";
 import {useTransactions} from "../../context/TransactionsContext.jsx";
+import {ErrorNotification} from "../auth/Auth.styled.js";
 
 const CATEGORIES = [
     {value: 'food', label: 'Еда', icon: 'icon-bag'},
@@ -22,7 +23,7 @@ const CATEGORIES = [
     {value: 'housing', label: 'Жильё', icon: 'icon-house'},
     {value: 'joy', label: 'Развлечения', icon: 'icon-gameboy'},
     {value: 'education', label: 'Образование', icon: 'icon-teacher'},
-    {value: 'other', label: 'Другое', icon: 'icon-message-text'},
+    {value: 'others', label: 'Другое', icon: 'icon-message-text'},
 ];
 
 const NewCost = ({loading}) => {
@@ -74,15 +75,16 @@ const NewCost = ({loading}) => {
             date: !formData.date,
             sum: !formData.sum.trim(),
         };
+        const hasValidationErrors = Object.values(newErrors).some(Boolean);
         setErrors(newErrors);
-        setError(Object.values(newErrors).some(Boolean));
+        setError(hasValidationErrors);
 
-        if (!error) {
+        if (!hasValidationErrors) {
             const newTransaction = {
                 description: formData.description,
-                sum: formData.sum,
+                sum: Number(formData.sum),
                 category: category,
-                date: formData.date
+                date: new Date(formData.date)
             }
 
             try {
@@ -163,6 +165,12 @@ const NewCost = ({loading}) => {
                                 onChange={handleChange}
                             />
                         </FieldGroup>
+
+                        {
+                            error
+                                ? <ErrorNotification>{error}</ErrorNotification>
+                                : null
+                        }
 
                         <FormButton disabled={error || loading} type="submit">Добавить новый расход</FormButton>
                     </NewCostForm>

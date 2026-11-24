@@ -43,7 +43,7 @@ const Table = ({loading}) => {
                         {
                             loading
                                 ? null
-                                : transactions.map((row) => (
+                                : transactions?.map((row) => (
                                     <tr key={row._id}>
                                         <TableCell>{row.description}</TableCell>
                                         <TableCell>{row.category}</TableCell>

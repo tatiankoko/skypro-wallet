@@ -4,6 +4,7 @@ import App from './App.jsx'
 import {BrowserRouter} from "react-router-dom";
 import {GlobalStyle} from "./components/GlobalStyle.styled.js";
 import {AuthProvider} from "./context/AuthContext.jsx";
+import {TransactionsProvider} from "./context/TransactionsContext.jsx";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -11,7 +12,9 @@ createRoot(document.getElementById('root')).render(
       <BrowserRouter>
           <GlobalStyle />
           <AuthProvider>
-              <App />
+              <TransactionsProvider>
+                  <App />
+              </TransactionsProvider>
           </AuthProvider>
       </BrowserRouter>
   </StrictMode>,

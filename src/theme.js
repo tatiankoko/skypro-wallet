@@ -20,5 +20,5 @@ export const colors = {
     housing: '#6EE4FE',
     joy: '#B0AEFF',
     education: '#BCEC30',
-    other: '#FFB9B8',
+    others: '#FFB9B8',
 }

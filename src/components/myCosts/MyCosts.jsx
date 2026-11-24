@@ -4,7 +4,7 @@ import NewCost from "../newCost/NewCost.jsx";
 import {useAuth} from "../../context/AuthContext.jsx";
 import {useCallback, useEffect, useState} from "react";
 import {useTransactions} from "../../context/TransactionsContext.jsx";
-import {fetchTransactions} from "../../services/transactions.js";
+import {fetchAllTransactions, fetchTransactions} from "../../services/transactions.js";
 import {ErrorMessage} from "../Notification.styled.js";
 
 const MyCosts = () => {
@@ -21,9 +21,9 @@ const MyCosts = () => {
         try {
             setLoading(true);
 
-            const data = await fetchTransactions({
+            const data = await fetchAllTransactions({
                 token: user.token,
-                filters: filters,
+                /*filters: filters,*/
             });
 
             if (data) {

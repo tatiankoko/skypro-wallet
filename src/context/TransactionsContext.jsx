@@ -9,14 +9,14 @@ export function TransactionsProvider({ children }) {
     const [transactions, setTransactions] = useState(null);
 
     // Функция добавления новой транзакции
-    const addTransaction = async (newTask) => {
+    const addTransaction = async (newTransaction) => {
         const data = await postTransaction({
             token: user?.token,
-            task: JSON.stringify(newTask)
+            transaction: JSON.stringify(newTransaction)
         });
 
         if (data) {
-            setTransactions(data);
+            setTransactions(data.transactions);
             return true;
         } else {
             return false;
@@ -24,11 +24,11 @@ export function TransactionsProvider({ children }) {
     };
 
     // Функция редактирования транзакции
-    const updateTransaction = async (updatedTask) => {
+    const updateTransaction = async (updatedTransaction) => {
         const data = await editTransaction({
             token: user?.token,
-            id: updatedTask._id,
-            task: JSON.stringify(updatedTask)
+            id: updatedTransaction._id,
+            transaction: JSON.stringify(updatedTransaction)
         })
 
         if (data) {
