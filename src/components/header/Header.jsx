@@ -6,21 +6,28 @@ import {
     HeaderNav,
     HeaderStyled
 } from "./Header.styled.js";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../../context/AuthContext.jsx";
 import {useState} from "react";
 import PopNavigation from "../popNavigation/PopNavigation.jsx";
 
 const Header = () => {
-    const {isAuth, setIsAuth} = useAuth();
+    const {isAuth, logout} = useAuth();
+    const navigate = useNavigate();
     const [activeLink, setActiveLink] = useState('my');
     const [showNav, setShowNav] = useState(false)
-
 
     const handleClickLink = (e) => {
         setActiveLink(e.target.id);
         setShowNav(!showNav);
     };
+
+    const handleLogout = (e) => {
+        e.preventDefault();
+        logout();
+        /*setTransactions(null);*/
+        navigate("/sign-in");
+    }
 
     return (
         <HeaderStyled>
@@ -70,7 +77,7 @@ const Header = () => {
 
                     {
                         isAuth
-                            ? <HeaderLogout onClick={() => setIsAuth(false)}>
+                            ? <HeaderLogout onClick={handleLogout}>
                                 Выйти
                             </HeaderLogout>
                             : null

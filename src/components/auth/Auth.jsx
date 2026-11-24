@@ -13,7 +13,7 @@ import {Modal, ModalBlock, ModalForm, ModalTtl} from "../Modal.styled.js";
 const Auth = () => {
     const [isSignUp, setIsSignUp] = useState(false);
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const { login, signup } = useAuth();
     // состояние текста ошибки, чтобы показать её пользователю
     const [error, setError] = useState("");
 
@@ -35,6 +35,12 @@ const Auth = () => {
     const validateForm = () => {
         const newErrors = { name: "", login: "", password: "" };
         let isValid = true;
+
+        if (isSignUp && !formData.name.trim()) {
+            newErrors.name = true;
+            setError("Заполните все поля");
+            isValid = false;
+        }
 
         if (!formData.login.trim()) {
             newErrors.login = true;
@@ -68,14 +74,19 @@ const Auth = () => {
         if (!validateForm()) {
             return;
         }
+
         try {
-            const data = await login({
-                login: formData.login,
-                password: formData.password
-            });
+            const data = isSignUp
+                ? await signup({
+                    name: formData.name,
+                    login: formData.login,
+                    password: formData.password})
+                : await login({
+                    login: formData.login,
+                    password: formData.password});
 
             if (data) {
-                navigate("/");
+                isSignUp ? setIsSignUp(false) : navigate("/");
             }
         } catch (err) {
             setError(err.message);
