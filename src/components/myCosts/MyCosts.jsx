@@ -26,9 +26,13 @@ const MyCosts = () => {
 
             if (data) {
                 setTransactions(data);
+                return true;
             }
+
+            return false;
         } catch (err) {
             setError(err.message);
+            return false;
         } finally {
             setLoading(false);
         }
@@ -40,7 +44,7 @@ const MyCosts = () => {
 
     const handleUpdate = useCallback(async () => {
         setLoading(true);
-        await getTransactions();
+        return getTransactions();
     }, [getTransactions]);
 
     const handleSort = (sortBy) => {

@@ -23,14 +23,8 @@ export const MyCostsContainer = styled.div`
     width: 100%;
     height: 100%;
     max-width: 1260px;
-    /*min-height: calc(100vh - 64px);*/
     padding: 36px 10px;
     margin: 0 auto 36px;
-
-    @media screen and (max-width: 495px) {
-        width: 100%;
-        padding: 0 0 0 16px;
-    }
 `
 
 export const CostsTitle = styled.h2`
@@ -38,7 +32,6 @@ export const CostsTitle = styled.h2`
     font-size: 32px;
     font-weight: 700;
     line-height: 48px;
-    /*margin-bottom: 20px;*/
     color: ${ colors.title };
 `
 

@@ -68,7 +68,7 @@ const Table = ({loading, sortBy, onSort}) => {
                                         <TableCell>{CATEGORIES.find((item) => item.value === row.category)?.label ?? row.category}</TableCell>
                                         <TableCell>{
                                             new Date(row.date).toLocaleString(
-                                                'default',
+                                                'ru-RU',
                                                 {
                                                     day: '2-digit',
                                                     month: '2-digit',

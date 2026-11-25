@@ -21,13 +21,13 @@ import {CATEGORIES} from "../../constants/categories.js";
 const NewCost = ({loading, onSubmit}) => {
     const {addTransaction} = useTransactions();
     const [category, setCategory] = useState('');
-    const [errors, setErrors] = useState({
+    const [validationErrors, setValidationErrors] = useState({
         description: false,
         category: false,
         date: false,
         sum: false,
     });
-    const [error, setError] = useState(false);
+    const [submitError, setSubmitError] = useState('');
     const [formData, setFormData] = useState(() => {
         // toISOString() даёт UTC-дату и может сдвинуть день, поэтому собираем локальную
         const today = new Date();
@@ -50,11 +50,11 @@ const NewCost = ({loading, onSubmit}) => {
             ...formData,
             [name]: value,
         });
-        setErrors({
-            ...errors,
+        setValidationErrors((previous) => ({
+            ...previous,
             [name]: false,
-        });
-        setError(false);
+        }));
+        setSubmitError('');
     };
 
     // Заглушка до подключения API: пока только валидация
@@ -68,8 +68,8 @@ const NewCost = ({loading, onSubmit}) => {
             sum: !formData.sum.trim(),
         };
         const hasValidationErrors = Object.values(newErrors).some(Boolean);
-        setErrors(newErrors);
-        setError(hasValidationErrors);
+        setValidationErrors(newErrors);
+        setSubmitError('');
 
         if (!hasValidationErrors) {
             const newTransaction = {
@@ -83,10 +83,28 @@ const NewCost = ({loading, onSubmit}) => {
                 const result = await addTransaction(newTransaction);
 
                 if (result) {
-                    onSubmit();
+                    const refreshed = await onSubmit();
+                    if (refreshed) {
+                        setFormData({
+                            description: '',
+                            date: formData.date,
+                            sum: '',
+                        });
+                        setCategory('');
+                        setValidationErrors({
+                            description: false,
+                            category: false,
+                            date: false,
+                            sum: false,
+                        });
+                    } else {
+                        setSubmitError('Расход добавлен, но список не удалось обновить.');
+                    }
+                } else {
+                    setSubmitError('Не удалось добавить расход.');
                 }
             } catch (err) {
-                setError(err.message);
+                setSubmitError(err.message);
             }
         }
     };
@@ -99,10 +117,10 @@ const NewCost = ({loading, onSubmit}) => {
 
                     <NewCostForm onSubmit={handleSubmit}>
                         <FieldGroup>
-                            <FieldLabel htmlFor="cost-description" $error={errors.description}>Описание</FieldLabel>
+                            <FieldLabel htmlFor="cost-description" $error={validationErrors.description}>Описание</FieldLabel>
                             <FormInput
                                 id="cost-description"
-                                $error={errors.description}
+                                $error={validationErrors.description}
                                 type="text"
                                 name="description"
                                 placeholder="Введите описание"
@@ -112,7 +130,7 @@ const NewCost = ({loading, onSubmit}) => {
                         </FieldGroup>
 
                         <FieldGroup>
-                            <FieldLabel as="span" $error={errors.category}>Категория</FieldLabel>
+                            <FieldLabel as="span" $error={validationErrors.category}>Категория</FieldLabel>
                             <CategoryGroup>
                                 {CATEGORIES.map((item) => (
                                     <CategoryToggle key={item.value} $active={category === item.value}>
@@ -123,8 +141,11 @@ const NewCost = ({loading, onSubmit}) => {
                                             checked={category === item.value}
                                             onChange={() => {
                                                 setCategory(item.value);
-                                                setErrors({...errors, category: false});
-                                                setError(false);
+                                                setValidationErrors((previous) => ({
+                                                    ...previous,
+                                                    category: false,
+                                                }));
+                                                setSubmitError('');
                                             }}
                                         />
                                         <svg width="14" height="14" aria-hidden="true">
@@ -137,10 +158,10 @@ const NewCost = ({loading, onSubmit}) => {
                         </FieldGroup>
 
                         <FieldGroup>
-                            <FieldLabel htmlFor="cost-date" $error={errors.date}>Дата</FieldLabel>
+                            <FieldLabel htmlFor="cost-date" $error={validationErrors.date}>Дата</FieldLabel>
                             <DateInput
                                 id="cost-date"
-                                $error={errors.date}
+                                $error={validationErrors.date}
                                 type="date"
                                 name="date"
                                 value={formData.date}
@@ -149,10 +170,10 @@ const NewCost = ({loading, onSubmit}) => {
                         </FieldGroup>
 
                         <FieldGroup>
-                            <FieldLabel htmlFor="cost-sum" $error={errors.sum}>Сумма</FieldLabel>
+                            <FieldLabel htmlFor="cost-sum" $error={validationErrors.sum}>Сумма</FieldLabel>
                             <SumInput
                                 id="cost-sum"
-                                $error={errors.sum}
+                                $error={validationErrors.sum}
                                 type="number"
                                 name="sum"
                                 min="0"
@@ -163,12 +184,12 @@ const NewCost = ({loading, onSubmit}) => {
                         </FieldGroup>
 
                         {
-                            error
-                                ? <ErrorNotification>{error}</ErrorNotification>
+                            submitError
+                                ? <ErrorNotification>{submitError}</ErrorNotification>
                                 : null
                         }
 
-                        <FormButton disabled={error || loading} type="submit">Добавить новый расход</FormButton>
+                        <FormButton disabled={loading} type="submit">Добавить новый расход</FormButton>
                     </NewCostForm>
                 </NewCostBlock>
             </TableContainer>
