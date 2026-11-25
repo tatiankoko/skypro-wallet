@@ -47,7 +47,16 @@ const Table = ({loading}) => {
                                     <tr key={row._id}>
                                         <TableCell>{row.description}</TableCell>
                                         <TableCell>{row.category}</TableCell>
-                                        <TableCell>{row.date}</TableCell>
+                                        <TableCell>{
+                                            new Date(row.date).toLocaleString(
+                                                'default',
+                                                {
+                                                    day: '2-digit',
+                                                    month: '2-digit',
+                                                    year: 'numeric'
+                                                })
+                                        }
+                                        </TableCell>
                                         <TableCell>{row.sum}</TableCell>
                                         <TableCell>
                                             <DeleteButton
