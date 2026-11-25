@@ -5,13 +5,13 @@ import {
     TableCell,
     TableContainer,
     TableHeadCell, TableTtl,
-    TableWrapper
+    TableWrapper, SortButton
 } from "./Table.styled.js";
 import {useTransactions} from "../../context/TransactionsContext.jsx";
 import {ErrorMessage} from "../Notification.styled.js";
 import {CATEGORIES} from "../../constants/categories.js";
 
-const Table = ({loading}) => {
+const Table = ({loading, sortBy, onSort}) => {
     const {transactions, removeTransaction} = useTransactions();
     const [error, setError] = useState('');
 
@@ -34,8 +34,26 @@ const Table = ({loading}) => {
                         <tr>
                             <TableHeadCell>Описание</TableHeadCell>
                             <TableHeadCell>Категория</TableHeadCell>
-                            <TableHeadCell>Дата</TableHeadCell>
-                            <TableHeadCell>Сумма</TableHeadCell>
+                            <TableHeadCell>
+                                <SortButton
+                                    type="button"
+                                    $selected={sortBy === "date"}
+                                    aria-pressed={sortBy === "date"}
+                                    onClick={() => onSort("date")}
+                                >
+                                    Дата
+                                </SortButton>
+                            </TableHeadCell>
+                            <TableHeadCell>
+                                <SortButton
+                                    type="button"
+                                    $selected={sortBy === "sum"}
+                                    aria-pressed={sortBy === "sum"}
+                                    onClick={() => onSort("sum")}
+                                >
+                                    Сумма
+                                </SortButton>
+                            </TableHeadCell>
                             <TableHeadCell></TableHeadCell>
                         </tr>
                         </thead>

@@ -13,14 +13,12 @@ const MyCosts = () => {
     const {user} = useAuth();
     const [error, setError] = useState('');
     const [filters, setFilters] = useState({
-        sortBy: 'date',
+        sortBy: null,
         filterBy: [],
     });
 
     const getTransactions = useCallback(async () => {
         try {
-            setLoading(true);
-
             const data = await fetchTransactions({
                 token: user.token,
                 filters: filters,
@@ -34,15 +32,24 @@ const MyCosts = () => {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [filters, setTransactions, user]);
 
     useEffect(() => {
         getTransactions();
     }, [getTransactions]);
 
     const handleUpdate = useCallback(async () => {
+        setLoading(true);
         await getTransactions();
-    }, [fetchTransactions]);
+    }, [getTransactions]);
+
+    const handleSort = (sortBy) => {
+        setLoading(true);
+        setFilters((previous) => ({
+            ...previous,
+            sortBy,
+        }));
+    };
 
     return (
         <MyCostsWrapper>
@@ -54,7 +61,11 @@ const MyCosts = () => {
                         : null
                 }
                 <CostsBlock>
-                    <Table loading={loading} />
+                    <Table
+                        loading={loading}
+                        sortBy={filters.sortBy}
+                        onSort={handleSort}
+                    />
                     <NewCost loading={loading} onSubmit={handleUpdate} />
                 </CostsBlock>
             </MyCostsContainer>

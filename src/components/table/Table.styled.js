@@ -59,6 +59,19 @@ export const TableHeadCell = styled.th`
     border-bottom: 1px solid ${ colors.shadow };
 `
 
+export const SortButton = styled.button`
+    padding: 0;
+    border: 0;
+    background: none;
+    color: ${({$selected}) => $selected ? colors.title : colors.shadow};
+    font: inherit;
+    cursor: pointer;
+
+    &:hover {
+        color: ${ colors.title };
+    }
+`
+
 export const TableCell = styled.td`
     vertical-align: middle;
     padding: 8px 32px;
