@@ -84,7 +84,7 @@ export async function deleteTransaction({ token, id }) {
                 'Content-Type': 'text/html',
             },
         })
-        return data.data
+        return data.data.transactions;
     } catch (error) {
         throw new Error(error.message)
     }
@@ -92,14 +92,14 @@ export async function deleteTransaction({ token, id }) {
 
 export async function getTransactionsByPeriod({ token, period }) {
     try {
-        const response = await axios.post(API_URL + "/period", period, {
+        const response = await axios.post(`${API_URL}/period`, period, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: 'Bearer ' + token,
                 "Content-Type": "text/html",
             },
         });
         return response.data;
     } catch (error) {
-        throw error;
+        throw new Error(error.message)
     }
 }

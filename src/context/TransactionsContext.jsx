@@ -7,6 +7,7 @@ const TransactionsContext = createContext(undefined);
 export function TransactionsProvider({ children }) {
     const {user} = useAuth();
     const [transactions, setTransactions] = useState(null);
+    const [selectedPeriod, setSelectedPeriod] = useState(null);
 
     // Функция добавления новой транзакции
     const addTransaction = async (newTransaction) => {
@@ -58,6 +59,8 @@ export function TransactionsProvider({ children }) {
         <TransactionsContext.Provider value={{
             transactions,
             setTransactions,
+            selectedPeriod,
+            setSelectedPeriod,
             addTransaction,
             updateTransaction,
             removeTransaction

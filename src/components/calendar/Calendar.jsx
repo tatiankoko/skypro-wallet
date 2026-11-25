@@ -1,6 +1,10 @@
 import {useEffect, useRef, useState} from "react";
 import {DayPicker} from "react-day-picker";
 import {ru} from "react-day-picker/locale";
+import {useAuth} from "../../context/AuthContext.jsx";
+import {useTransactions} from "../../context/TransactionsContext.jsx";
+import {getTransactionsByPeriod} from "../../services/transactions.js";
+import {ErrorMessage} from "../Notification.styled.js";
 import {
     CalendarBlock,
     CalendarContainer,
@@ -15,7 +19,10 @@ const WEEKDAYS = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
 const Calendar = () => {
     const [range, setRange] = useState();
+    const [error, setError] = useState("");
     const scrollRef = useRef(null);
+    const {user} = useAuth();
+    const {setTransactions, setSelectedPeriod} = useTransactions();
 
     const today = new Date();
     const startMonth = new Date(today.getFullYear(), today.getMonth() - (MONTHS_COUNT - 1), 1);
@@ -27,6 +34,36 @@ const Calendar = () => {
             el.scrollTop = el.scrollHeight;
         }
     }, []);
+
+    const handleSelect = async (selectedRange) => {
+        setRange(selectedRange);
+
+        if (!selectedRange?.from || !selectedRange?.to) {
+            return;
+        }
+
+        setSelectedPeriod(selectedRange);
+
+        const formatDate = (date) =>
+            `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`;
+
+        try {
+            setError("");
+            const data = await getTransactionsByPeriod({
+                token: user?.token,
+                period: {
+                    start: formatDate(selectedRange.from),
+                    end: formatDate(selectedRange.to),
+                },
+            });
+
+            const transactions = Array.isArray(data) ? data : data?.transactions;
+
+            setTransactions(transactions);
+        } catch (err) {
+            setError(err.message);
+        }
+    };
 
     return (
         <CalendarWrapper>
@@ -49,9 +86,10 @@ const Calendar = () => {
                             defaultMonth={startMonth}
                             hideNavigation
                             selected={range}
-                            onSelect={setRange}
+                            onSelect={handleSelect}
                         />
                     </CalendarScroll>
+                    {error && <ErrorMessage>{error}</ErrorMessage>}
                 </CalendarBlock>
             </CalendarContainer>
         </CalendarWrapper>
