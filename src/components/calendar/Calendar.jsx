@@ -42,8 +42,6 @@ const Calendar = () => {
             return;
         }
 
-        setSelectedPeriod(selectedRange);
-
         const formatDate = (date) =>
             `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`;
 
@@ -60,6 +58,7 @@ const Calendar = () => {
             const transactions = Array.isArray(data) ? data : data?.transactions;
 
             setTransactions(transactions);
+            setSelectedPeriod(selectedRange);
         } catch (err) {
             setError(err.message);
         }
