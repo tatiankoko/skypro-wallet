@@ -4,7 +4,7 @@ import NewCost from "../newCost/NewCost.jsx";
 import {useAuth} from "../../context/AuthContext.jsx";
 import {useCallback, useEffect, useState} from "react";
 import {useTransactions} from "../../context/TransactionsContext.jsx";
-import {fetchAllTransactions, fetchTransactions} from "../../services/transactions.js";
+import {fetchTransactions} from "../../services/transactions.js";
 import {ErrorMessage} from "../Notification.styled.js";
 
 const MyCosts = () => {
@@ -13,7 +13,7 @@ const MyCosts = () => {
     const {user} = useAuth();
     const [error, setError] = useState('');
     const [filters, setFilters] = useState({
-        sortBy: '?sortBy=date',
+        sortBy: 'date',
         filterBy: [],
     });
 
@@ -21,9 +21,9 @@ const MyCosts = () => {
         try {
             setLoading(true);
 
-            const data = await fetchAllTransactions({
+            const data = await fetchTransactions({
                 token: user.token,
-                /*filters: filters,*/
+                filters: filters,
             });
 
             if (data) {
@@ -40,6 +40,10 @@ const MyCosts = () => {
         getTransactions();
     }, [getTransactions]);
 
+    const handleUpdate = useCallback(async () => {
+        await getTransactions();
+    }, [fetchTransactions]);
+
     return (
         <MyCostsWrapper>
             <MyCostsContainer>
@@ -51,7 +55,7 @@ const MyCosts = () => {
                 }
                 <CostsBlock>
                     <Table loading={loading} />
-                    <NewCost loading={loading} />
+                    <NewCost loading={loading} onSubmit={handleUpdate} />
                 </CostsBlock>
             </MyCostsContainer>
         </MyCostsWrapper>

@@ -31,7 +31,7 @@ export const fetchTransactions = async ({ token, filters = {} }) => {
             params.append('filterBy', filters.filterBy.join(','));
         }
 
-        const url = `${API_URL}/transactions${params.toString() ? `?${params.toString()}` : ''}`;
+        const url = `${API_URL}/${params.toString() ? `?${params.toString()}` : ''}`;
 
         const response = await axios.get(url, {
             headers: {

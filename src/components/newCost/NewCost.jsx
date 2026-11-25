@@ -16,17 +16,9 @@ import {
 } from "./NewCost.styled.js";
 import {useTransactions} from "../../context/TransactionsContext.jsx";
 import {ErrorNotification} from "../auth/Auth.styled.js";
+import {CATEGORIES} from "../../constants/categories.js";
 
-const CATEGORIES = [
-    {value: 'food', label: 'Еда', icon: 'icon-bag'},
-    {value: 'transport', label: 'Транспорт', icon: 'icon-car'},
-    {value: 'housing', label: 'Жильё', icon: 'icon-house'},
-    {value: 'joy', label: 'Развлечения', icon: 'icon-gameboy'},
-    {value: 'education', label: 'Образование', icon: 'icon-teacher'},
-    {value: 'others', label: 'Другое', icon: 'icon-message-text'},
-];
-
-const NewCost = ({loading}) => {
+const NewCost = ({loading, onSubmit}) => {
     const {addTransaction} = useTransactions();
     const [category, setCategory] = useState('');
     const [errors, setErrors] = useState({
@@ -88,7 +80,11 @@ const NewCost = ({loading}) => {
             }
 
             try {
-                await addTransaction(newTransaction);
+                const result = await addTransaction(newTransaction);
+
+                if (result) {
+                    onSubmit();
+                }
             } catch (err) {
                 setError(err.message);
             }

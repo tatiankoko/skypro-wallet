@@ -9,6 +9,7 @@ import {
 } from "./Table.styled.js";
 import {useTransactions} from "../../context/TransactionsContext.jsx";
 import {ErrorMessage} from "../Notification.styled.js";
+import {CATEGORIES} from "../../constants/categories.js";
 
 const Table = ({loading}) => {
     const {transactions, removeTransaction} = useTransactions();
@@ -46,7 +47,7 @@ const Table = ({loading}) => {
                                 : transactions?.map((row) => (
                                     <tr key={row._id}>
                                         <TableCell>{row.description}</TableCell>
-                                        <TableCell>{row.category}</TableCell>
+                                        <TableCell>{CATEGORIES.find((item) => item.value === row.category)?.label ?? row.category}</TableCell>
                                         <TableCell>{
                                             new Date(row.date).toLocaleString(
                                                 'default',
