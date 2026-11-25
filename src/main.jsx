@@ -8,7 +8,6 @@ import {TransactionsProvider} from "./context/TransactionsContext.jsx";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-      {/* BrowserRouter позволяет управлять маршрутизацией в приложении */}
       <BrowserRouter>
           <GlobalStyle />
           <AuthProvider>

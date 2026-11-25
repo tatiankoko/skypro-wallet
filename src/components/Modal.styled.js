@@ -40,7 +40,6 @@ export const ModalTtl = styled.h2`
     font-size: 24px;
     font-weight: 700;
     line-height: 29px;
-    /*margin-bottom: 20px;*/
     color: ${ colors.title };
 `
 
