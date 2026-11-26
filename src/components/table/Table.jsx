@@ -1,0 +1,107 @@
+import {useState} from "react";
+import {
+    DeleteButton,
+    StyledTable, TableBlock,
+    TableCell,
+    TableContainer,
+    TableHeadCell, TableTtl,
+    TableWrapper, SortButton
+} from "./Table.styled.js";
+import {useTransactions} from "../../context/TransactionsContext.jsx";
+import {ErrorMessage} from "../Notification.styled.js";
+import {CATEGORIES} from "../../constants/categories.js";
+
+const Table = ({loading, sortBy, onSort}) => {
+    const {transactions, removeTransaction} = useTransactions();
+    const [error, setError] = useState('');
+
+    const handleDelete = async (id) => {
+        try {
+            await removeTransaction(id);
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
+    return (
+        <TableWrapper>
+            <TableContainer>
+                <TableBlock>
+                    <TableTtl>Таблица расходов</TableTtl>
+
+                    <StyledTable>
+                        <thead>
+                        <tr>
+                            <TableHeadCell>Описание</TableHeadCell>
+                            <TableHeadCell>Категория</TableHeadCell>
+                            <TableHeadCell>
+                                <SortButton
+                                    type="button"
+                                    $selected={sortBy === "date"}
+                                    aria-pressed={sortBy === "date"}
+                                    onClick={() => onSort("date")}
+                                >
+                                    Дата
+                                </SortButton>
+                            </TableHeadCell>
+                            <TableHeadCell>
+                                <SortButton
+                                    type="button"
+                                    $selected={sortBy === "sum"}
+                                    aria-pressed={sortBy === "sum"}
+                                    onClick={() => onSort("sum")}
+                                >
+                                    Сумма
+                                </SortButton>
+                            </TableHeadCell>
+                            <TableHeadCell></TableHeadCell>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {
+                            loading
+                                ? null
+                                : transactions?.map((row) => (
+                                    <tr key={row._id}>
+                                        <TableCell>{row.description}</TableCell>
+                                        <TableCell>{CATEGORIES.find((item) => item.value === row.category)?.label ?? row.category}</TableCell>
+                                        <TableCell>{
+                                            new Date(row.date).toLocaleString(
+                                                'ru-RU',
+                                                {
+                                                    day: '2-digit',
+                                                    month: '2-digit',
+                                                    year: 'numeric'
+                                                })
+                                        }
+                                        </TableCell>
+                                        <TableCell>{row.sum}</TableCell>
+                                        <TableCell>
+                                            <DeleteButton
+                                                type="button"
+                                                aria-label="Удалить строку"
+                                                onClick={() => handleDelete(row._id)}
+                                            >
+                                                <svg width="14" height="14" aria-hidden="true">
+                                                    <use href="/images/icon/sprite.svg#icon-bag"></use>
+                                                </svg>
+                                            </DeleteButton>
+                                        </TableCell>
+                                    </tr>))
+                        }
+                        </tbody>
+                    </StyledTable>
+
+                    {
+                        error
+                            ? <ErrorMessage>{error}</ErrorMessage>
+                            : null
+                    }
+                </TableBlock>
+            </TableContainer>
+        </TableWrapper>
+    );
+}
+
+export default Table;
