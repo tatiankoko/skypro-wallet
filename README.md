@@ -16,7 +16,7 @@
 - [styled-components](https://github.com/styled-components/styled-components) — стилизация компонентов
 - [react-day-picker](https://daypicker.dev/) — календарь с выбором периода
 - [axios](https://github.com/axios/axios) — HTTP-клиент для API
-- [react-data-table-component](https://github.com/jbetancur/react-data-table-component) — установлен, пока не используется (таблица собрана вручную)
+
 - ESLint (включая `eslint-plugin-react-hooks`)
 
 ## Запуск
